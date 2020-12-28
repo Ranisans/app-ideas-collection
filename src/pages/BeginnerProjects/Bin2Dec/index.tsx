@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { TextField } from "@material-ui/core";
 
+import PageWrapper from "../../../components/PageWrapper";
+
 const taskLink =
   "https://github.com/florinpop17/app-ideas/blob/master/Projects/1-Beginner/Bin2Dec-App.md";
 const title = "Bin2Dec";
@@ -55,4 +57,4 @@ const Bin2Dec: React.FC = () => {
   );
 };
 
-export default Bin2Dec;
+export default PageWrapper(title, taskLink, Bin2Dec);
