@@ -31,6 +31,7 @@ module.exports = {
   rules: {
     'linebreak-style': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    "react/jsx-props-no-spreading": "off",
     'prettier/prettier': [
       'error',
       {
