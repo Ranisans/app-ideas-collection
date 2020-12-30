@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 
 import clsx from "clsx";
+import { IComponentProps } from "./type";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -47,20 +48,31 @@ interface IBorderValue {
   [key: string]: number;
 }
 
-const InPixelSize: React.FC = () => {
-  const [borderValue, setBorderValue] = useState<IBorderValue>({
-    lt: 0,
-    rt: 0,
-    rb: 0,
-    lb: 0,
-  });
+const defaultValue: IBorderValue = {
+  lt: 0,
+  rt: 0,
+  rb: 0,
+  lb: 0,
+};
+
+const InPixelSize: React.FC<IComponentProps> = (props: IComponentProps) => {
+  const { callback } = props;
+  const [value, setValue] = useState<IBorderValue>(defaultValue);
+  const [borderValue, setRadiusValue] = useState(`0px 0px 0px 0px`);
 
   const styles = useStyles();
 
-  const handleChange = (element: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, name } = element.target;
-    setBorderValue({ ...borderValue, [name]: parseInt(value, 10) });
+  const handleChange = (key: string) => (
+    element: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setValue({ ...value, [key]: parseInt(element.target.value, 10) });
   };
+
+  useEffect(() => {
+    const style = `${value.lt}px ${value.rt}px ${value.rb}px ${value.lb}px`;
+    setRadiusValue(style);
+    callback(style);
+  }, [callback, value]);
 
   return (
     <div>
@@ -68,37 +80,33 @@ const InPixelSize: React.FC = () => {
         <input
           name="lt"
           className={clsx(styles.lt, styles.input)}
-          value={borderValue.lt}
-          onChange={handleChange}
+          value={value.lt}
+          onChange={handleChange("lt")}
         />
         <input
           name="rt"
           className={clsx(styles.rt, styles.input)}
-          value={borderValue.rt}
-          onChange={handleChange}
+          value={value.rt}
+          onChange={handleChange("rt")}
         />
         <div
           className={styles.subject}
           style={{
-            borderRadius: `${borderValue.lt}px ${borderValue.rt}px ${borderValue.rb}px ${borderValue.lb}px`,
+            borderRadius: borderValue,
           }}
         />
         <input
           name="rb"
           className={clsx(styles.rb, styles.input)}
-          value={borderValue.rb}
-          onChange={handleChange}
+          value={value.rb}
+          onChange={handleChange("rb")}
         />
         <input
           name="lb"
           className={clsx(styles.lb, styles.input)}
-          value={borderValue.lb}
-          onChange={handleChange}
+          value={value.lb}
+          onChange={handleChange("lb")}
         />
-      </div>
-      <div>
-        border-radius:
-        {` ${borderValue.lt}px ${borderValue.rt}px ${borderValue.rb}px ${borderValue.lb}px`}
       </div>
     </div>
   );
