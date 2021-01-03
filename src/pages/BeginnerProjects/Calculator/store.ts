@@ -2,38 +2,53 @@ import { observable } from "mobx";
 import { EFunctions } from "./types";
 
 const MAX_DIGITS = 8;
+const DEFAULT_VALUE = "0";
 
 export const createStore = () => {
   const store = {
     memo: 0,
-    value: observable.box(0),
+    value: observable.box(DEFAULT_VALUE),
     length: 0,
     lessZero: observable.box(false),
-    isError: observable.box(false),
+    error: observable.box(false),
     operator: "",
-    addNumber(num: number) {
+    get showedValue() {
+      return store.value.get();
+    },
+    get isLessZero() {
+      return store.lessZero.get();
+    },
+    get isError() {
+      return store.error.get();
+    },
+    addNumber(num: string) {
       if (store.length < MAX_DIGITS) {
-        const result = store.value.get() * 10 + num;
-        if (result !== 0) store.length += 1;
-        store.value.set(result);
+        const storedValue = store.value.get();
+        if (storedValue === "0") {
+          store.value.set(num);
+          store.length = 1;
+        } else {
+          store.value.set(`${storedValue}${num}`);
+          store.length += 1;
+        }
       }
     },
     setFunction(operator: EFunctions) {
-      let value = store.value.get();
+      let value = parseInt(store.value.get(), 10);
       if (store.lessZero.get()) {
         value = 0 - value;
       }
       store.memo = value;
       store.length = 0;
       store.lessZero.set(false);
-      store.value.set(0);
+      store.value.set(DEFAULT_VALUE);
       store.operator = operator;
     },
     calculate() {
-      let first = store.value.get();
-      const second = store.memo;
+      const first = store.memo;
+      let second = parseInt(store.value.get(), 10);
       if (store.lessZero.get()) {
-        first = 0 - first;
+        second = 0 - second;
       }
       let result: number;
       switch (store.operator) {
@@ -47,8 +62,7 @@ export const createStore = () => {
         }
         case EFunctions.DIVISION: {
           if (second === 0) {
-            store.reset();
-            store.isError.set(true);
+            store.error.set(true);
             return;
           }
           result = first / second;
@@ -66,19 +80,32 @@ export const createStore = () => {
         result = Math.abs(result);
       }
       store.memo = 0;
-      store.value.set(result);
+      store.value.set(`${result}`);
+    },
+    changeSign() {
+      store.lessZero.set(!store.lessZero.get());
     },
     reset() {
       store.memo = 0;
       store.lessZero.set(false);
-      store.value.set(0);
+      store.value.set(DEFAULT_VALUE);
       store.length = 0;
-      store.isError.set(false);
+      store.error.set(false);
     },
     clear() {
       store.lessZero.set(false);
-      store.value.set(0);
+      store.value.set(DEFAULT_VALUE);
       store.length = 0;
+    },
+    removeLast() {
+      if (store.length > 1) {
+        const value = store.value.get().substring(0, store.length - 1);
+        store.value.set(value);
+        store.length -= 1;
+      } else {
+        store.length = 0;
+        store.value.set(DEFAULT_VALUE);
+      }
     },
   };
 

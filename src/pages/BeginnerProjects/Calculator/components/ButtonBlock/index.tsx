@@ -3,10 +3,13 @@ import BackspaceIcon from "@material-ui/icons/Backspace";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Button } from "@material-ui/core";
+
+import { storeContext } from "../../context";
 import {
   EButtonColor,
   EOperations,
   EFunctions,
+  EDigits,
   IButton,
   RESULT,
   DOT,
@@ -17,20 +20,20 @@ const Buttons: IButton[] = [
   { value: EOperations.CLEAR, label: "C" },
   { value: EOperations.BACK, label: <BackspaceIcon /> },
   { value: EFunctions.DIVISION, label: "/" },
-  { value: "7", label: "7", color: EButtonColor.PRIMARY },
-  { value: "8", label: "8", color: EButtonColor.PRIMARY },
-  { value: "9", label: "9", color: EButtonColor.PRIMARY },
+  { value: EDigits.SEVEN, label: "7", color: EButtonColor.PRIMARY },
+  { value: EDigits.EIGHT, label: "8", color: EButtonColor.PRIMARY },
+  { value: EDigits.NINE, label: "9", color: EButtonColor.PRIMARY },
   { value: EFunctions.MULTI, label: "*" },
-  { value: "4", label: "4", color: EButtonColor.PRIMARY },
-  { value: "5", label: "5", color: EButtonColor.PRIMARY },
-  { value: "6", label: "6", color: EButtonColor.PRIMARY },
+  { value: EDigits.FOUR, label: "4", color: EButtonColor.PRIMARY },
+  { value: EDigits.FIVE, label: "5", color: EButtonColor.PRIMARY },
+  { value: EDigits.SIX, label: "6", color: EButtonColor.PRIMARY },
   { value: EFunctions.DIFF, label: "-" },
-  { value: "1", label: "1", color: EButtonColor.PRIMARY },
-  { value: "2", label: "2", color: EButtonColor.PRIMARY },
-  { value: "3", label: "3", color: EButtonColor.PRIMARY },
+  { value: EDigits.ONE, label: "1", color: EButtonColor.PRIMARY },
+  { value: EDigits.TWO, label: "2", color: EButtonColor.PRIMARY },
+  { value: EDigits.THREE, label: "3", color: EButtonColor.PRIMARY },
   { value: EFunctions.SUM, label: "+" },
   { value: EOperations.SIGN, label: "+/-" },
-  { value: "0", label: "0", color: EButtonColor.PRIMARY },
+  { value: EDigits.ZERO, label: "0", color: EButtonColor.PRIMARY },
   { value: DOT, label: "." },
   { value: RESULT, label: "=", color: EButtonColor.SECONDARY },
 ];
@@ -55,9 +58,47 @@ const StyledButton = withStyles(() => ({
 
 const ButtonBlock: React.FC = () => {
   const styles = useStyles();
+  const store = React.useContext(storeContext);
+  if (!store) throw Error("Store shouldn't be null");
+
+  const {
+    addNumber,
+    setFunction,
+    changeSign,
+    reset,
+    clear,
+    removeLast,
+    calculate,
+  } = store;
 
   const handlerClick = (value: string) => () => {
-    console.log(value);
+    if (Object.values(EDigits).includes(value as EDigits)) {
+      addNumber(value);
+    } else if (Object.values(EFunctions).includes(value as EFunctions)) {
+      setFunction(value as EFunctions);
+    } else if (Object.values(EOperations).includes(value as EOperations)) {
+      switch (value) {
+        case EOperations.CLEAR: {
+          clear();
+          break;
+        }
+        case EOperations.RESET: {
+          reset();
+          break;
+        }
+        case EOperations.BACK: {
+          removeLast();
+          break;
+        }
+        case EOperations.SIGN: {
+          changeSign();
+          break;
+        }
+        default:
+      }
+    } else if (value === RESULT) {
+      calculate();
+    }
   };
 
   return (
