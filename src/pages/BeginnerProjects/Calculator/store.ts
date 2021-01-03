@@ -3,6 +3,7 @@ import { EFunctions } from "./types";
 
 const MAX_DIGITS = 8;
 const DEFAULT_VALUE = "0";
+const EMPTY_OPERATOR = "";
 
 export const createStore = () => {
   const store = {
@@ -11,7 +12,7 @@ export const createStore = () => {
     length: 0,
     lessZero: observable.box(false),
     error: observable.box(false),
-    operator: "",
+    operator: EMPTY_OPERATOR,
     get showedValue() {
       return store.value.get();
     },
@@ -34,6 +35,11 @@ export const createStore = () => {
       }
     },
     setFunction(operator: EFunctions) {
+      if (store.operator !== EMPTY_OPERATOR) {
+        store.calculate();
+        store.operator = EMPTY_OPERATOR;
+        return;
+      }
       let value = parseInt(store.value.get(), 10);
       if (store.lessZero.get()) {
         value = 0 - value;
@@ -80,7 +86,12 @@ export const createStore = () => {
         result = Math.abs(result);
       }
       store.memo = 0;
-      store.value.set(`${result}`);
+      const strResult = `${result}`;
+      if (strResult.length > MAX_DIGITS) {
+        store.error.set(true);
+      } else {
+        store.value.set(`${result}`);
+      }
     },
     changeSign() {
       store.lessZero.set(!store.lessZero.get());
@@ -90,6 +101,7 @@ export const createStore = () => {
       store.lessZero.set(false);
       store.value.set(DEFAULT_VALUE);
       store.length = 0;
+      store.operator = EMPTY_OPERATOR;
       store.error.set(false);
     },
     clear() {
