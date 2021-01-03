@@ -15,10 +15,16 @@ export enum EOperations {
   RESET = "reset",
   CLEAR = "clear",
   BACK = "back",
+  SIGN = "sign",
+}
+
+export enum EFunctions {
   DIVISION = "division",
   MULTI = "multi",
   DIFF = "dif",
   SUM = "sum",
-  SIGN = "sign",
-  RESULT = "result",
 }
+
+export const RESULT = "result";
+
+export const DOT = "dot";
