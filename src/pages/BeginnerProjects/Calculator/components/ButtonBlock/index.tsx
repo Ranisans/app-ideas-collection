@@ -65,6 +65,7 @@ const ButtonBlock: React.FC = () => {
     addNumber,
     setFunction,
     changeSign,
+    addDecimalPoint,
     reset,
     clear,
     removeLast,
@@ -98,6 +99,8 @@ const ButtonBlock: React.FC = () => {
       }
     } else if (value === RESULT) {
       calculate();
+    } else if (value === DOT) {
+      addDecimalPoint();
     }
   };
 
