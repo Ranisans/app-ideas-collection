@@ -2,6 +2,7 @@ import React from "react";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import PageWrapper from "../../../components/PageWrapper";
 import ButtonBlock from "./components/ButtonBlock";
+import { StoreProvider } from "./context";
 
 const title = "Calculator";
 const taskLink =
@@ -23,9 +24,11 @@ const useStyles = makeStyles(() => ({
 const Calculator: React.FC = () => {
   const styles = useStyles();
   return (
-    <div className={styles.container}>
-      <ButtonBlock />
-    </div>
+    <StoreProvider>
+      <div className={styles.container}>
+        <ButtonBlock />
+      </div>
+    </StoreProvider>
   );
 };
 
