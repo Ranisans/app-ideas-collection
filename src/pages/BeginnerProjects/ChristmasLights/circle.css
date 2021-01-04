@@ -1,0 +1,60 @@
+body {
+    --size: 50px;
+    --color: gray;
+    --intensity: 1s;
+}
+
+.circle {
+    display: flex;
+    width: var(--size);
+    height: var(--size);
+    background: var(--color);
+    border-radius: 50%;
+    position: relative;
+    animation: var(--intensity) linear infinite bright;
+    margin: 16px;
+    box-sizing: border-box;
+}
+
+.circle::before {
+    position: absolute;
+    content: '';
+    height: 15px;
+    width: 16px;
+    left: 0;
+    right: 0;
+    top: -15px;
+    margin: 0 auto 0 auto;
+    padding: 0;
+    background: rgb(68, 53, 73);
+    border-radius: 2px;
+    display: inline-block;
+    border-bottom: 2px solid rgb(97, 81, 107);
+}
+
+.circle::after {
+    position: absolute;
+    content: "";
+    top: -20px;
+    left: calc(var(--size) / 2 + 8px);
+    width: 70px;
+    height: 18px;
+    border-bottom: solid #222 2px;
+    border-radius: 50%;
+}
+
+.circle:last-child::after {
+    content: '';
+    position: absolute;
+    border: none;
+}
+
+@keyframes bright {
+    0%,
+    100% {
+        box-shadow: none;
+    }
+    50% {
+        box-shadow: 0 0 20px 5px var(--color);
+    }
+}
