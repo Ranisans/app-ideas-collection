@@ -4,6 +4,46 @@ body {
     --intensity: 1s;
 }
 
+.circle_container {
+    position: relative;
+    width: 85px;
+    height: 85px;
+}
+
+.circle_container:hover .circle_container-menu {
+    display: block;
+}
+
+
+.circle_container-menu {
+    display: none;
+    position: absolute;
+    z-index: 100;
+}
+
+.circle-width-slider {
+    width: 85px;
+    margin: auto;
+}
+
+.flashlight_color-wrapper {
+    position: relative;
+    overflow: hidden;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 100%;
+}
+
+.flashlight_color {
+    position: absolute;
+    right: -8px;
+    top: -8px;
+    width: calc(var(--size) + 16px);
+    height: calc(var(--size) + 16px);
+    border: none;
+    padding: 0;
+}
+
 .circle {
     display: flex;
     width: var(--size);
@@ -12,7 +52,7 @@ body {
     border-radius: 50%;
     position: relative;
     animation: var(--intensity) linear infinite bright;
-    margin: 16px;
+    margin: 16px auto 16px auto;
     box-sizing: border-box;
 }
 
@@ -32,18 +72,18 @@ body {
     border-bottom: 2px solid rgb(97, 81, 107);
 }
 
-.circle::after {
+.circle_container::after {
     position: absolute;
     content: "";
-    top: -20px;
-    left: calc(var(--size) / 2 + 8px);
+    top: -10px;
+    left: 50px;
     width: 70px;
     height: 18px;
     border-bottom: solid #222 2px;
     border-radius: 50%;
 }
 
-.circle:last-child::after {
+.circle_container:last-child::after {
     content: '';
     position: absolute;
     border: none;

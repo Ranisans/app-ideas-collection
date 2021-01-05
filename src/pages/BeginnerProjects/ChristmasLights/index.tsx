@@ -6,11 +6,10 @@ import Main from "./Main";
 
 const useStyles = makeStyles(() => ({
   container: {
-    width: 500,
+    width: "content",
     padding: 30,
     margin: "0 auto",
     background: "rgb(25, 21, 26)",
-    display: "flex",
   },
 }));
 
