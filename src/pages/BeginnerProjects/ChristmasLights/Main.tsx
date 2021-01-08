@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button } from "@material-ui/core";
+import { Button, Slider } from "@material-ui/core";
 import { storeContext } from "./context";
 import Circle from "./Circle";
 
@@ -11,9 +11,10 @@ const FLASHLIGHTS_COUNT = 12;
 
 const Main: React.FC = () => {
   const store = React.useContext(storeContext);
+  const [tempIntensity, setTempIntensity] = React.useState(1);
   if (!store) throw Error("Store shouldn't be null");
 
-  const { switchOnOf } = store;
+  const { switchOnOf, setIntensity } = store;
 
   const flashlights: string[] = [];
 
@@ -27,6 +28,14 @@ const Main: React.FC = () => {
     }
   }
 
+  const handleIntensityChange = (event: any, value: number | number[]) => {
+    setTempIntensity(value as number);
+  };
+
+  const handleIntensitySet = () => {
+    setIntensity(tempIntensity);
+  };
+
   return (
     <>
       <div style={{ display: "flex" }}>
@@ -35,9 +44,26 @@ const Main: React.FC = () => {
           <Circle color={color} key={`${color}-${index}`} />
         ))}
       </div>
-      <Button onClick={switchOnOf} variant="contained" color="primary">
-        ON/OFF
-      </Button>
+      <div className="controls">
+        <Button onClick={switchOnOf} variant="contained" color="primary">
+          ON/OFF
+        </Button>
+        <Slider
+          value={tempIntensity}
+          onChange={handleIntensityChange}
+          min={0.5}
+          max={5}
+          step={0.1}
+          valueLabelDisplay="on"
+        />
+        <Button
+          onClick={handleIntensitySet}
+          variant="contained"
+          color="secondary"
+        >
+          Set Intensity
+        </Button>
+      </div>
     </>
   );
 };

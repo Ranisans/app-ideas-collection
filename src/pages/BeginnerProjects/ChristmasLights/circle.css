@@ -89,6 +89,13 @@ body {
     border: none;
 }
 
+.controls {
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(3, 110px);
+    grid-gap: 20px;
+}
+
 @keyframes bright {
     0%,
     100% {
