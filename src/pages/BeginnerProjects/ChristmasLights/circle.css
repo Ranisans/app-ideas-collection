@@ -51,12 +51,9 @@ body {
     background: var(--color);
     border-radius: 50%;
     position: relative;
+    animation: var(--intensity) linear infinite bright;
     margin: 16px auto 16px auto;
     box-sizing: border-box;
-}
-
-.circle_animation {
-    animation: var(--intensity) linear infinite bright;
 }
 
 .circle::before {

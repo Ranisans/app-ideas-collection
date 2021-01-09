@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-import { Button, Slider } from "@material-ui/core";
-import { observer } from "mobx-react-lite";
+import React from "react";
 
+import { Button, Slider } from "@material-ui/core";
 import { storeContext } from "./context";
 import Circle from "./Circle";
 
@@ -10,18 +9,12 @@ import "./circle.css";
 const colors = ["#FFFF00", "#FF00FF", "#00FFFF"];
 const FLASHLIGHTS_COUNT = 12;
 
-const Main: React.FC = observer(() => {
+const Main: React.FC = () => {
   const store = React.useContext(storeContext);
   const [tempIntensity, setTempIntensity] = React.useState(1);
   if (!store) throw Error("Store shouldn't be null");
 
-  let ref: HTMLDivElement | null = null;
-
-  const { switchOnOf, setIntensity, getIntensity } = store;
-
-  useEffect(() => {
-    ref?.style.setProperty("--intensity", `${getIntensity}s`);
-  }, [getIntensity, ref]);
+  const { switchOnOf, setIntensity } = store;
 
   const flashlights: string[] = [];
 
@@ -35,7 +28,7 @@ const Main: React.FC = observer(() => {
     }
   }
 
-  const handleIntensityChange = (event: never, value: number | number[]) => {
+  const handleIntensityChange = (event: any, value: number | number[]) => {
     setTempIntensity(value as number);
   };
 
@@ -44,9 +37,8 @@ const Main: React.FC = observer(() => {
   };
 
   return (
-    <div>
-      {/* eslint-disable-next-line no-return-assign */}
-      <div ref={(div) => (ref = div)} style={{ display: "flex" }}>
+    <>
+      <div style={{ display: "flex" }}>
         {flashlights.map((color, index) => (
           // eslint-disable-next-line react/no-array-index-key
           <Circle color={color} key={`${color}-${index}`} />
@@ -72,8 +64,8 @@ const Main: React.FC = observer(() => {
           Set Intensity
         </Button>
       </div>
-    </div>
+    </>
   );
-});
+};
 
 export default Main;

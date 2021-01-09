@@ -11,24 +11,25 @@ interface ICircle {
 
 interface IElement extends ICircle {
   size: number;
+  intensity: number;
   isOn: boolean;
   onChangeColor: (color: string) => void;
 }
 
 const Element: React.FC<IElement> = (props: IElement) => {
-  const { color, size, isOn, onChangeColor } = props;
+  const { color, size, intensity, isOn, onChangeColor } = props;
   let ref: HTMLDivElement | null = null;
 
   useEffect(() => {
     ref?.style.setProperty("--size", `${size}px`);
     if (isOn) {
-      ref?.classList.add("circle_animation");
       ref?.style.setProperty("--color", color);
+      ref?.style.setProperty("--intensity", `${intensity}s`);
     } else {
       ref?.style.setProperty("--color", DEFAULT_COLOR);
-      ref?.classList.remove("circle_animation");
+      ref?.style.setProperty("--intensity", `0s`);
     }
-  }, [color, isOn, ref, size]);
+  }, [color, intensity, isOn, ref, size]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.currentTarget;
@@ -85,6 +86,7 @@ const Circle: React.FC<ICircle> = (props: ICircle) => {
       <Element
         color={color}
         size={size}
+        intensity={store.getIntensity}
         isOn={store.getIsOn}
         onChangeColor={onChangeColor}
       />
