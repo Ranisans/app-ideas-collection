@@ -3,3 +3,13 @@
   display: grid;
   grid-template-rows: auto 1fr; /* header and task body */
 }
+
+.project-body {
+  margin: 10px;
+  display: grid;
+  grid-template-rows: auto 1fr; /* header task and task body */
+}
+
+.task-selector {
+  width: max-content;
+}
