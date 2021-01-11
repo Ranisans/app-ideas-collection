@@ -1,13 +1,13 @@
 .App {
-  min-height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr; /* header and task body */
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .project-body {
   margin: 10px;
-  display: grid;
-  grid-template-rows: auto 1fr; /* header task and task body */
+  flex: 0;
 }
 
 .task-selector {
