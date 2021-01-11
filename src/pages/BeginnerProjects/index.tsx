@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -17,12 +17,15 @@ const DropDown: React.FC = () => {
   const [value, setValue] = React.useState("/");
   const history = useHistory();
 
+  useEffect(() => {
+    history.push(value);
+  }, [value])
+
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
   ) => {
     const { value: selectValue } = event.target;
     setValue(selectValue as string);
-    history.push(selectValue as string);
   };
 
   return (
