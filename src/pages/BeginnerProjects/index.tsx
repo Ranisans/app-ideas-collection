@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -12,6 +12,7 @@ import Bin2Dec from "./Bin2Dec";
 import BorderRadiusPreviewer from "./BorderRadiusPreviewer";
 import Calculator from "./Calculator";
 import ChristmasLights from "./ChristmasLights";
+import CauseEffect from "./CauseEffect";
 
 const DropDown: React.FC = () => {
   const [value, setValue] = React.useState("/");
@@ -19,7 +20,7 @@ const DropDown: React.FC = () => {
 
   useEffect(() => {
     history.push(value);
-  }, [value])
+  }, [value, history]);
 
   const handleChange = (
     event: React.ChangeEvent<{ name?: string; value: unknown }>
@@ -46,6 +47,7 @@ const DropDown: React.FC = () => {
         <option value="/borderRadiusPreviewer">BorderRadiusPreviewer</option>
         <option value="/calculator">Calculator</option>
         <option value="/christmasLights">ChristmasLights</option>
+        <option value="/causeEffect">CauseEffect</option>
       </Select>
     </FormControl>
   );
@@ -72,6 +74,9 @@ const BeginnerProject: React.FC = () => {
         </Route>
         <Route path="/christmasLights">
           <ChristmasLights />
+        </Route>
+        <Route path="/causeEffect">
+          <CauseEffect />
         </Route>
       </Switch>
     </Router>

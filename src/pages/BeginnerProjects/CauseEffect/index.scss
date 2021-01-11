@@ -1,0 +1,39 @@
+.cause_effect {
+    &-container {
+        height: 100%;
+        display: flex;
+        overflow: hidden;
+    }
+
+    &-name_list {
+        height: 100%;
+        overflow-y: auto;
+        width: 300px;
+
+        & div {
+            padding-bottom: 10px;
+            cursor: pointer;
+
+            &:last-child {
+                padding-bottom: 0;
+            }
+        }
+    }
+
+    &-info {
+        height: 100%;
+        margin:  50px;
+
+        &-name {
+            &:hover {
+                font-weight: bold;
+                color: #214271;
+            }
+            &:active {
+                font-weight: bold;
+                color: #30c602;
+            }
+        }
+    }
+
+}
