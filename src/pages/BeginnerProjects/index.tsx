@@ -13,6 +13,7 @@ import BorderRadiusPreviewer from "./BorderRadiusPreviewer";
 import Calculator from "./Calculator";
 import ChristmasLights from "./ChristmasLights";
 import CauseEffect from "./CauseEffect";
+import CountdownTimer from "./CountdownTimer";
 
 const DropDown: React.FC = () => {
   const [value, setValue] = React.useState("/");
@@ -48,6 +49,7 @@ const DropDown: React.FC = () => {
         <option value="/calculator">Calculator</option>
         <option value="/christmasLights">ChristmasLights</option>
         <option value="/causeEffect">CauseEffect</option>
+        <option value="/countdownTimer">CountdownTimer</option>
       </Select>
     </FormControl>
   );
@@ -77,6 +79,9 @@ const BeginnerProject: React.FC = () => {
         </Route>
         <Route path="/causeEffect">
           <CauseEffect />
+        </Route>
+        <Route path="/countdownTimer">
+          <CountdownTimer />
         </Route>
       </Switch>
     </Router>

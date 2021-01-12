@@ -1,0 +1,17 @@
+.countdown_timer {
+  &-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  &-set_timer_block {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 15px;
+  }
+
+  &-button {
+    width: 100px;
+    margin: auto !important;
+  }
+}
