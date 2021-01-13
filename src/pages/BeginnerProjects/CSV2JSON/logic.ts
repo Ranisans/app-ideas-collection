@@ -95,5 +95,8 @@ export const JSONToCSV = (text: string): string | null => {
     result += `${line}\r\n`;
   }
 
+  // remove last \r\n
+  result = result.slice(0, -2);
+
   return result;
 };

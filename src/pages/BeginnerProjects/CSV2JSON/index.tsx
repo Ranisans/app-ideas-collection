@@ -101,8 +101,12 @@ const CSV2JSON: React.FC = () => {
     <div className="csv2json-container">
       <Typography component="div" className="csv2json-slider">
         <Grid component="label" container alignItems="flex-start" spacing={1}>
-          <Grid item>CSV</Grid>
-          <Grid item>
+          <Grid item xs>
+            <div className={!isSourceJSON ? "csv2json-active_type" : ""}>
+              CSV
+            </div>
+          </Grid>
+          <Grid item xs>
             <FormControlLabel
               value="top"
               control={
@@ -117,7 +121,11 @@ const CSV2JSON: React.FC = () => {
               labelPlacement="top"
             />
           </Grid>
-          <Grid item>JSON</Grid>
+          <Grid item xs>
+            <div className={isSourceJSON ? "csv2json-active_type" : ""}>
+              JSON
+            </div>
+          </Grid>
         </Grid>
       </Typography>
       <div className="csv2json-body">
