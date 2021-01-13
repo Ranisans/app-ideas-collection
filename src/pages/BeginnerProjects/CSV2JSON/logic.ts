@@ -75,5 +75,25 @@ export const CSVToJSON = (text: string): string | null => {
 };
 
 export const JSONToCSV = (text: string): string | null => {
-  return text;
+  let array;
+  try {
+    array = JSON.parse(text);
+  } catch (e) {
+    return null;
+  }
+  const keys = Object.keys(array[0]);
+  let result = `${keys.join(",")}\r\n`;
+
+  for (let i = 0; i < array.length; i += 1) {
+    let line = "";
+
+    for (let j = 0; j < keys.length; j += 1) {
+      const value = array[i][keys[j]] || "";
+      line += `"${value.replace(/"/g, '""')}",`;
+    }
+    line = line.slice(0, -1);
+    result += `${line}\r\n`;
+  }
+
+  return result;
 };
