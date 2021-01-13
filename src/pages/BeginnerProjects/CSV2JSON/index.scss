@@ -1,0 +1,39 @@
+.csv2json {
+  &-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &-slider {
+    width: 190px;
+    margin: 0 auto !important;
+  }
+
+  &-body {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 713px;
+    margin: 0 auto;
+  }
+
+  &-text {
+    width: 320px;
+  }
+
+  &-data_box {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+  }
+
+  &-button {
+    width: 150px;
+    margin-left: auto !important;
+  }
+
+  &-transform_button {
+    height: 342px;
+    min-width: 50px !important;
+  }
+}
