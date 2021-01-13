@@ -27,7 +27,9 @@ const CSV2JSON: React.FC = () => {
   const [isSourceJSON, setIsSourceJSON] = useState(false);
   const [source, setSource] = useState("");
   const [result, setResult] = useState("");
-  const [open, setOpen] = useState(false);
+  const [openError, setOpenError] = useState(false);
+  const [errorText, setErrorText] = useState("");
+  const [linkRef, setRef] = useState<HTMLAnchorElement | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsSourceJSON(event.target.checked);
@@ -38,7 +40,7 @@ const CSV2JSON: React.FC = () => {
       return;
     }
 
-    setOpen(false);
+    setOpenError(false);
   };
 
   const handleSourceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,10 +48,37 @@ const CSV2JSON: React.FC = () => {
     setSource(value);
   };
 
+  const handleChangeFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const reader = new FileReader();
+    reader.onload = async (e: ProgressEvent<FileReader>) => {
+      if (e.target?.result) {
+        const text = e.target.result;
+        if (typeof text === "string") {
+          setSource(text);
+        }
+      }
+    };
+
+    if (event.target?.files) {
+      reader.readAsText(event.target.files[0]);
+    } else {
+      setErrorText("Cannot Read File!");
+      setOpenError(true);
+    }
+  };
+
+  const saveFile = (text: string) => {
+    if (linkRef) {
+      const file = new Blob([text], { type: "text/plain" });
+      linkRef.href = URL.createObjectURL(file);
+      linkRef.download = "result.txt";
+    }
+  };
+
   const handleTransform = () => {
     if (source.length === 0) {
       // error
-      setOpen(true);
+      setOpenError(true);
       return;
     }
     let transformResult: string | null;
@@ -61,8 +90,10 @@ const CSV2JSON: React.FC = () => {
 
     if (transformResult && transformResult !== "[]") {
       setResult(transformResult);
+      saveFile(transformResult);
     } else {
-      setOpen(true);
+      setErrorText("Wrong Data!");
+      setOpenError(true);
     }
   };
 
@@ -100,13 +131,30 @@ const CSV2JSON: React.FC = () => {
             value={source}
             onChange={handleSourceChange}
           />
-          <Button
-            className="csv2json-button"
-            variant="contained"
-            color="primary"
+          <label
+            htmlFor="upload-file"
+            className="csv2json-button_wrapper"
+            style={{
+              marginLeft: "auto",
+            }}
           >
-            Load
-          </Button>
+            <input
+              style={{ display: "none" }}
+              id="upload-file"
+              name="upload-file"
+              type="file"
+              onChange={handleChangeFile}
+            />
+
+            <Button
+              color="primary"
+              variant="contained"
+              component="span"
+              className="csv2json-button"
+            >
+              Load
+            </Button>
+          </label>
         </div>
         <Button className="csv2json-transform_button" onClick={handleTransform}>
           {">>"}
@@ -120,18 +168,31 @@ const CSV2JSON: React.FC = () => {
             rows={15}
             value={result}
           />
-          <Button
-            className="csv2json-button"
-            variant="contained"
-            color="primary"
+          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
+          <a
+            ref={(ref) => setRef(ref)}
+            className="csv2json-button_wrapper"
+            href=""
+            id="download-file"
           >
-            Save
-          </Button>
+            <Button
+              className="csv2json-button"
+              variant="contained"
+              color="primary"
+            >
+              Save
+            </Button>
+          </a>
         </div>
       </div>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleCloseError}>
+      <Snackbar
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+        open={openError}
+        autoHideDuration={3000}
+        onClose={handleCloseError}
+      >
         <Alert onClose={handleCloseError} severity="error">
-          Wrong Data!
+          {errorText}
         </Alert>
       </Snackbar>
     </div>

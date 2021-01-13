@@ -27,9 +27,12 @@
     grid-gap: 10px;
   }
 
+  &-button_wrapper {
+    margin-left: auto !important;
+  }
+
   &-button {
     width: 150px;
-    margin-left: auto !important;
   }
 
   &-transform_button {
