@@ -17,7 +17,9 @@ const CSVtoArray = (data: string) => {
 
   // Create an array to hold our individual pattern
   // matching groups.
-  let arrayMatches = objPattern.exec(data);
+  const dataWithoutNewLinesInTheEnd = data.replace(/\n+$/, "");
+
+  let arrayMatches = objPattern.exec(dataWithoutNewLinesInTheEnd);
 
   let strMatchedValue = "";
 
@@ -48,7 +50,7 @@ const CSVtoArray = (data: string) => {
     // it to the data array.
     arrayData[arrayData.length - 1].push(strMatchedValue);
 
-    arrayMatches = objPattern.exec(data);
+    arrayMatches = objPattern.exec(dataWithoutNewLinesInTheEnd);
   }
   return arrayData;
 };

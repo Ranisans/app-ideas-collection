@@ -9,6 +9,7 @@ import {
   Snackbar,
 } from "@material-ui/core";
 import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
+import { saveAs } from "file-saver";
 
 import PageWrapper from "../../../components/PageWrapper";
 
@@ -29,7 +30,6 @@ const CSV2JSON: React.FC = () => {
   const [result, setResult] = useState("");
   const [openError, setOpenError] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const [linkRef, setRef] = useState<HTMLAnchorElement | null>(null);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIsSourceJSON(event.target.checked);
@@ -67,11 +67,13 @@ const CSV2JSON: React.FC = () => {
     }
   };
 
-  const saveFile = (text: string) => {
-    if (linkRef) {
-      const file = new Blob([text], { type: "text/plain" });
-      linkRef.href = URL.createObjectURL(file);
-      linkRef.download = "result.txt";
+  const handleSaveFile = () => {
+    if (result !== "") {
+      const file = new Blob([result], { type: "text/plain" });
+      saveAs(file, "result.txt");
+    } else {
+      setErrorText("Result is empty");
+      setOpenError(true);
     }
   };
 
@@ -90,7 +92,6 @@ const CSV2JSON: React.FC = () => {
 
     if (transformResult && transformResult !== "[]") {
       setResult(transformResult);
-      saveFile(transformResult);
     } else {
       setErrorText("Wrong Data!");
       setOpenError(true);
@@ -176,21 +177,15 @@ const CSV2JSON: React.FC = () => {
             rows={15}
             value={result}
           />
-          {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-          <a
-            ref={(ref) => setRef(ref)}
-            className="csv2json-button_wrapper"
-            href=""
-            id="download-file"
+
+          <Button
+            className="csv2json-button"
+            variant="contained"
+            color="primary"
+            onClick={handleSaveFile}
           >
-            <Button
-              className="csv2json-button"
-              variant="contained"
-              color="primary"
-            >
-              Save
-            </Button>
-          </a>
+            Save
+          </Button>
         </div>
       </div>
       <Snackbar
