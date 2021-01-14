@@ -1,0 +1,17 @@
+.dollars_to_cents {
+  &-container {
+    display: flex;
+    flex-direction: row;
+    padding-top: 20px;
+    width: 500px;
+    margin: 0 auto;
+    justify-content: space-between;
+  }
+  &-input_block {}
+  &-base_input {}
+  &-output_block {
+    display: flex;
+    flex-direction: column;
+  }
+  &-result_input {}
+}
