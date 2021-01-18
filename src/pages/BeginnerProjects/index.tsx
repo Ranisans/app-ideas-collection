@@ -16,6 +16,7 @@ import CauseEffect from "./CauseEffect";
 import CountdownTimer from "./CountdownTimer";
 import CSV2JSON from "./CSV2JSON";
 import DollarsToCents from "./DollarsToCents";
+import FlipImage from "./FlipImage/FlipImage";
 
 const DropDown: React.FC = () => {
   const [value, setValue] = React.useState("/");
@@ -54,6 +55,7 @@ const DropDown: React.FC = () => {
         <option value="/countdownTimer">CountdownTimer</option>
         <option value="/CSV2JSON">CSV2JSON</option>
         <option value="/dollarsToCents">DollarsToCents</option>
+        <option value="/flipImage">FlipImage</option>
       </Select>
     </FormControl>
   );
@@ -92,6 +94,9 @@ const BeginnerProject: React.FC = () => {
         </Route>
         <Route path="/dollarsToCents">
           <DollarsToCents />
+        </Route>
+        <Route path="/flipImage">
+          <FlipImage />
         </Route>
       </Switch>
     </Router>

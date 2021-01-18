@@ -117,3 +117,6 @@ dist
 
 # idea
 .idea/
+
+# Dolphin folder config files
+.directory
