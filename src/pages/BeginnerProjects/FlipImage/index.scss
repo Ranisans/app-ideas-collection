@@ -14,10 +14,18 @@
     &-horizontal_button {
       grid-row: button;
       grid-column: image;
+      display: flex;
+      justify-content: space-around;
+    }
+    &-horizontal_icon {
+      transform: rotate(-90deg);
     }
     &-vertical_button {
       grid-row: image;
       grid-column: button;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
     }
     &-image {
       grid-row: image;
