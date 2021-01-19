@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import "date-fns";
 import DateFnsUtils from "@date-io/date-fns";
-import { Button, TextField, Snackbar } from "@material-ui/core";
+import { Button, TextField } from "@material-ui/core";
 import { MuiPickersUtilsProvider, DateTimePicker } from "@material-ui/pickers";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 
 import PageWrapper from "../../../components/PageWrapper";
+import AlertError from "../../../components/AlertError";
 import Timer, { ITimer } from "./Timer";
 
 import "./index.scss";
@@ -13,10 +13,6 @@ import "./index.scss";
 const title = "Countdown Timer";
 const taskLink =
   "https://github.com/florinpop17/app-ideas/blob/master/Projects/1-Beginner/Countdown-Timer-App.md";
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const CountdownTimer: React.FC = () => {
   const [selectedDate, setSelectedDate] = useState<Date>(new Date());
@@ -110,11 +106,7 @@ const CountdownTimer: React.FC = () => {
           />
         ))}
       </div>
-      <Snackbar open={open} autoHideDuration={3000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="error">
-          Wrong Date!
-        </Alert>
-      </Snackbar>
+      <AlertError open={open} handleClose={handleClose} text="Wrong Date!" />
     </div>
   );
 };

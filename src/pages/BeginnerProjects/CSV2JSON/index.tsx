@@ -6,23 +6,18 @@ import {
   Typography,
   Switch,
   FormControlLabel,
-  Snackbar,
 } from "@material-ui/core";
-import MuiAlert, { AlertProps } from "@material-ui/lab/Alert";
 import { saveAs } from "file-saver";
 
 import PageWrapper from "../../../components/PageWrapper";
 
 import "./index.scss";
 import { CSVToJSON, JSONToCSV } from "./logic";
+import AlertError from "../../../components/AlertError";
 
 const title = "CSV2JSON";
 const taskLink =
   "https://github.com/florinpop17/app-ideas/blob/master/Projects/1-Beginner/CSV2JSON-App.md";
-
-function Alert(props: AlertProps) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const CSV2JSON: React.FC = () => {
   const [isSourceJSON, setIsSourceJSON] = useState(false);
@@ -188,16 +183,11 @@ const CSV2JSON: React.FC = () => {
           </Button>
         </div>
       </div>
-      <Snackbar
-        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      <AlertError
         open={openError}
-        autoHideDuration={3000}
-        onClose={handleCloseError}
-      >
-        <Alert onClose={handleCloseError} severity="error">
-          {errorText}
-        </Alert>
-      </Snackbar>
+        handleClose={handleCloseError}
+        text={errorText}
+      />
     </div>
   );
 };
