@@ -16,11 +16,15 @@ interface IGrid {
   gridTemplateRows: string;
 }
 
+interface IScale {
+  x: number;
+  y: number;
+}
+
 const ImageBlock: React.FC<IImageBlock> = (props: IImageBlock) => {
   const { top, left, imageURL } = props;
-  let imgRef: HTMLImageElement | null = null;
-
   const [gridStyle, setGridStyle] = useState<IGrid | null>(null);
+  const [scale, setScale] = useState<IScale>({ x: 1, y: 1 });
 
   useEffect(() => {
     const result = {} as any;
@@ -38,9 +42,13 @@ const ImageBlock: React.FC<IImageBlock> = (props: IImageBlock) => {
     setGridStyle(result);
   }, [top, left]);
 
-  const handleHorizontalRotate = () => {};
+  const handleHorizontalRotate = () => {
+    setScale({ ...scale, x: -scale.x });
+  };
 
-  const handleVerticalRotate = () => {};
+  const handleVerticalRotate = () => {
+    setScale({ ...scale, y: -scale.y });
+  };
 
   return (
     <div style={gridStyle || {}} className="flip_image-image_block">
@@ -51,14 +59,12 @@ const ImageBlock: React.FC<IImageBlock> = (props: IImageBlock) => {
         />
       </div>
       <img
-        ref={(ref) => {
-          imgRef = ref;
-        }}
         className="flip_image-image_block-image"
         src={imageURL}
         alt="error"
         height="200"
         width="200"
+        style={{ transform: `scaleX(${scale.x}) scaleY(${scale.y})` }}
       />
       <div className="flip_image-image_block-vertical_button">
         <HeightIcon onClick={handleVerticalRotate} />
